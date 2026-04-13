@@ -71,12 +71,32 @@ public class DirectionalLight : Light
 	[Property, Group( "Shadows" ), HideIf( nameof( ShadowCascadeCount ), 1 )]
 	public CascadeVisualizer Visualizer { get; set; } = new();
 
+	/// <summary>
+	/// Maximum distance from the camera that directional light shadows are rendered.
+	/// Set to 0 to use the global <c>r.shadows.csm.distance</c> ConVar value (default 15000).
+	/// </summary>
+	[Property, Group( "Shadows" ), Title( "Shadow Distance" ), Range( 0, 50000 )]
+	[InfoBox( "Maximum shadow cascade distance in world units. 0 uses the global quality setting." )]
+	public float ShadowCascadeDistance
+	{
+		get;
+		set
+		{
+			if ( field == value ) return;
+			field = value;
+
+			if ( _so.IsValid() )
+				_so.CascadeDistance = value;
+		}
+	} = 0f;
+
 	protected override SceneLight CreateSceneObject()
 	{
 		return _so = new SceneDirectionalLight( Scene.SceneWorld, WorldRotation, LightColor )
 		{
 			ShadowCascadeCount = ShadowCascadeCount,
-			ShadowCascadeSplitRatio = ShadowCascadeSplitRatio
+			ShadowCascadeSplitRatio = ShadowCascadeSplitRatio,
+			CascadeDistance = ShadowCascadeDistance
 		};
 	}
 
