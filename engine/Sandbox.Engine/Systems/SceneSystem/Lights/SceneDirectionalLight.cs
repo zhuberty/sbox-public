@@ -47,6 +47,14 @@ public sealed class SceneDirectionalLight : SceneLight
 	}
 
 	/// <summary>
+	/// Per-light override for the maximum shadow cascade distance.
+	/// When set to a value greater than 0, this overrides the global
+	/// <c>r.shadows.csm.distance</c> ConVar for this light only.
+	/// A value of 0 (the default) means "use the global ConVar value".
+	/// </summary>
+	public float CascadeDistance { get; set; } = 0f;
+
+	/// <summary>
 	/// Set the max distance of the shadow cascade
 	/// </summary>
 	public void SetCascadeDistanceScale( float distance )

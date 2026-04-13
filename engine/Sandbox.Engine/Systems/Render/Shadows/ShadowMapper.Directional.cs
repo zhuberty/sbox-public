@@ -272,7 +272,7 @@ internal partial class ShadowMapper
 			return;
 
 		int numCascades = Math.Min( light.lightNative.GetShadowCascades(), MaxCascades );
-		float farClip = CascadeDistance;
+		float farClip = light is SceneDirectionalLight { CascadeDistance: > 0f } dl ? dl.CascadeDistance : CascadeDistance;
 		int shadowmapSize = MaxCascadeResolution;
 		float splitRatio = light.lightNative.GetShadowCascadeSplitRatio();
 
